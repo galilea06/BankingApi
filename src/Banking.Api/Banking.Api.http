@@ -1,0 +1,48 @@
+@host = http://localhost:5080
+
+### 1. Crear cliente (copia el "id" de la respuesta)
+POST {{host}}/api/customers
+Content-Type: application/json
+
+{
+  "fullName": "María Fernanda López",
+  "dateOfBirth": "1995-03-14",
+  "gender": "Female",
+  "monthlyIncome": 1500.50
+}
+
+### 2. Crear cuenta (pega el id del cliente)
+POST {{host}}/api/accounts
+Content-Type: application/json
+
+{
+  "customerId": "PEGA-AQUI-EL-ID-DEL-CLIENTE",
+  "initialBalance": 100
+}
+
+### 3. Consultar saldo (reemplaza el número de cuenta)
+GET {{host}}/api/accounts/ACC-20261105-0000/balance
+
+### 4. Depositar
+POST {{host}}/api/accounts/ACC-20261105-0000/deposits
+Content-Type: application/json
+
+{ "amount": 50.25 }
+
+### 5. Retirar
+POST {{host}}/api/accounts/ACC-20261105-0000/withdrawals
+Content-Type: application/json
+
+{ "amount": 20 }
+
+### 6. Retiro sin fondos -> 400 con cuerpo JSON limpio
+POST {{host}}/api/accounts/ACC-20261105-0000/withdrawals
+Content-Type: application/json
+
+{ "amount": 999999 }
+
+### 7. Historial
+GET {{host}}/api/accounts/ACC-20261105-0000/transactions
+
+### 8. Cuenta inexistente -> 404
+GET {{host}}/api/accounts/ACC-00000000-0000/balance
